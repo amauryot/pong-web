@@ -80,6 +80,26 @@ function moveBall() {
   ball.y += ball.yVelocity;
 }
 
+function movePaddle1() {
+  var limit = 10;
+  var top = boardTopEdge() + limit;
+  var bottom = boardBottomEdge() - limit;
+  
+  paddle1.y = ball.y - (1 / 2) *  paddle.height;
+
+  if (paddle1TopEdge() < top) {
+    paddle1.y = top;
+  } 
+  
+  if (paddle1BottomEdge() > bottom) {
+    paddle1.y = bottom - paddle.height;
+  }
+}
+
+function movePaddle2() {
+  // TODO
+}
+
 function ballHitHorizontal() {
   return ballHitBoardLeft() || ballHitBoardRight()
     || ballHitPaddle1Right() || ballHitPaddle2Left();
@@ -104,5 +124,6 @@ function checkBallCollisions() {
 function runApp() {
   drawObjects();
   moveBall();
+  movePaddle1();
   checkBallCollisions();
 }
