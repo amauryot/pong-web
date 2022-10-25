@@ -28,7 +28,7 @@ var ball = {
 
 // Paddle variables
 var paddle = {
-  width: 10,
+  width: 15,
   height: 100,
   color: 'white',
 }
@@ -81,14 +81,14 @@ function moveBall() {
 }
 
 function ballHitHorizontal() {
-  return (ballLeftEdge() < boardLeftEdge())
-      || (ballRightEdge() > boardRightEdge())
-      || (ballLeftEdge() < paddle1RightEdge()) && (ballTopEdge() < paddle1BottomEdge()) && (ballBottomEdge() > paddle1TopEdge())
-      || (ballRightEdge() > paddle2LeftEdge()) && (ballTopEdge() < paddle2BottomEdge()) && (ballBottomEdge() > paddle2TopEdge());
+  return ballHitBoardLeft() || ballHitBoardRight()
+    || ballHitPaddle1Right() || ballHitPaddle2Left();
 }
 
 function ballHitVertical() {
-  return (ballTopEdge() < boardTopEdge()) || (ballBottomEdge() > boardBottomEdge());
+  return ballHitBoardTop() || ballHitBoardBottom()
+    || ballHitPaddle1Top() || ballHitPaddle1Bottom()
+    || ballHitPaddle2Top() || ballHitPaddle2Bottom();
 }
 
 function checkBallCollisions() {
