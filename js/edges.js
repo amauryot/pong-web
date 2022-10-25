@@ -1,71 +1,71 @@
-/* Board */
+/* Board edges */
 
-function boardEdgeLeft() {
+function boardLeftEdge() {
   return board.x;
 }
 
-function boardEdgeRight() {
+function boardRightEdge() {
   return board.width;
 }
 
-function boardEdgeTop() {
+function boardTopEdge() {
   return board.y;
 }
 
-function boardEdgeBottom() {
+function boardBottomEdge() {
   return board.height;
 }
 
-/* Ball */
+/* Ball edges */
 
-function ballEdgeLeft() {
+function ballLeftEdge() {
   return ball.x - ball.radius;
 }
 
-function ballEdgeRight() {
+function ballRightEdge() {
   return ball.x + ball.radius;
 }
 
-function ballEdgeTop() {
+function ballTopEdge() {
   return ball.y - ball.radius;
 }
 
-function ballEdgeBottom() {
+function ballBottomEdge() {
   return ball.y + ball.radius;
 }
 
-/* Paddle 1 */
+/* Paddle 1 edges */
 
-function paddle1EdgeLeft() {
+function paddle1LeftEdge() {
   return paddle1.x;
 }
 
-function paddle1EdgeRight() {
+function paddle1RightEdge() {
   return paddle1.x + paddle.width;
 }
 
-function paddle1EdgeTop() {
+function paddle1TopEdge() {
   return paddle1.y;
 }
 
-function paddle1EdgeBottom() {
+function paddle1BottomEdge() {
   return paddle1.y + paddle.height;
 }
 
-/* Paddle 2 */
+/* Paddle 2 edges */
 
-function paddle2EdgeLeft() {
+function paddle2LeftEdge() {
   return paddle2.x;
 }
 
-function paddle2EdgeRight() {
+function paddle2RightEdge() {
   return paddle2.x + paddle.width;
 }
 
-function paddle2EdgeTop() {
+function paddle2TopEdge() {
   return paddle2.y;
 }
 
-function paddle2EdgeBottom() {
+function paddle2BottomEdge() {
   return paddle2.y + paddle.height;
 }
