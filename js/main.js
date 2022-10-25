@@ -14,12 +14,16 @@ var board = {
   width: app_width,
   height: app_height,
   color: 'black',
+  line_x: (app.width - 5) / 2,
+  line_y: 0,
+  line_width: 5,
+  line_height: app.height / 19, 
 };
 
 // Ball variables
 var ball = {
-  x: (1 / 2) * board.width,
-  y: (1 / 2) * board.height,
+  x: board.width / 2,
+  y: board.height / 2,
   radius: 10,
   color: 'white',
   xVelocity: 1,
@@ -36,7 +40,7 @@ var paddle = {
 // Paddle 1 variables
 var paddle1 = {
   x: ball.radius,
-  y: (1 / 2) * (board.height - paddle.height),
+  y: (board.height - paddle.height) / 2,
 }
 
 // Paddle 2 variables
@@ -45,15 +49,30 @@ var paddle2 = {
   y: paddle1.y,
 }
 
+// Key code
+var arrow = {
+  left: 37,
+  up: 38,
+  right: 39,
+  down: 40,
+}
+
 /* Main */
 
 setInterval(runApp, time);
+
+document.onkeydown = movePaddle2;
 
 /* Functions */
 
 function drawBoard() {
   brush.fillStyle = board.color;
   brush.fillRect(board.x, board.y, board.width, board.height);
+  
+  brush.fillStyle = 'white';
+  for (i = 0; i < 10; i++) {
+    brush.fillRect(board.line_x, (i * 2 * board.line_height), board.line_width, board.line_height);
+  }
 }
 
 function drawBall() {
@@ -81,23 +100,35 @@ function moveBall() {
 }
 
 function movePaddle1() {
-  var limit = 10;
-  var top = boardTopEdge() + limit;
-  var bottom = boardBottomEdge() - limit;
-  
-  paddle1.y = ball.y - (1 / 2) *  paddle.height;
+  paddle1.y = ball.y - (paddle.height / 2);
 
-  if (paddle1TopEdge() < top) {
-    paddle1.y = top;
+  if (paddle1TopEdge() < boardTopEdge()) {
+    paddle1.y = boardTopEdge();
   } 
   
-  if (paddle1BottomEdge() > bottom) {
-    paddle1.y = bottom - paddle.height;
+  if (paddle1BottomEdge() > boardBottomEdge()) {
+    paddle1.y = boardBottomEdge() - paddle.height;
   }
 }
 
-function movePaddle2() {
-  // TODO
+function movePaddle2(event) {
+  var speed = 2 * ball.radius;
+  
+  if (event.keyCode == arrow.up) {
+    paddle2.y -= speed;
+  }
+
+  if (event.keyCode == arrow.down) {
+    paddle2.y += speed;
+  }
+
+  if (paddle2TopEdge() < boardTopEdge()) {
+    paddle2.y = boardTopEdge();
+  } 
+  
+  if (paddle2BottomEdge() > boardBottomEdge()) {
+    paddle2.y = boardBottomEdge() - paddle.height;
+  }
 }
 
 function ballHitHorizontal() {
