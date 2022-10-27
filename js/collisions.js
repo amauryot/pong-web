@@ -1,61 +1,64 @@
-/* Ball hit board */
-
-function ballHitBoardLeft() {
-  return (ballLeftEdge() < boardLeftEdge());
+// Check if the ball hit the board left .
+function ball_hit_board_left() {
+  return (ball_left() < board_left());
 }
 
-function ballHitBoardRight() {
-  return (ballRightEdge() > boardRightEdge());
+// Check if the ball hit the board right .
+function ball_hit_board_right() {
+  return (ball_right() > board_right());
 }
 
-function ballHitBoardTop() {
-  return (ballTopEdge() < boardTopEdge());
+// Check if the ball hit the board top .
+function ball_hit_board_top() {
+  return (ball_top() < board_top());
 }
 
-function ballHitBoardBottom() {
-  return (ballBottomEdge() > boardBottomEdge());
+// Check if the ball hit the board bottom .
+function ball_hit_board_bottom() {
+  return (ball_bottom() > board_bottom());
 }
 
-/* Ball hit paddle 1 */
-
-function ballHitPaddle1Right() {
-  return (ballLeftEdge() < paddle1RightEdge())
-    && (ballTopEdge() < paddle1BottomEdge())
-    && (ballBottomEdge() > paddle1TopEdge());
+// Check if the ball hit the paddle 1 right .
+function ball_hit_paddle_1_right() {
+  return (ball_left() < paddle_1_right()) && (ball_top() < paddle_1_bottom()) && (ball_bottom() > paddle_1_top());
 }
 
-function ballHitPaddle1Top() {
-  return (ballBottomEdge() > paddle1TopEdge())
-    && (ballTopEdge() < paddle1TopEdge())
-    && (ballRightEdge() > paddle1LeftEdge())
-    && (ballLeftEdge() < paddle1RightEdge());
+// Check if the ball hit the paddle 1 top .
+function ball_hit_paddle_1_top() {
+  return (ball_bottom() > paddle_1_top()) && (ball_top() < paddle_1_top())
+    && (ball_right() > paddle_1_left()) && (ball_left() < paddle_1_right());
 }
 
-function ballHitPaddle1Bottom() {
-  return (ballTopEdge() < paddle1BottomEdge())
-    && (ballBottomEdge() > paddle1BottomEdge())
-    && (ballRightEdge() > paddle1LeftEdge())
-    && (ballLeftEdge() < paddle1RightEdge());
+// Check if the ball hit the paddle 1 bottom .
+function ball_hit_paddle_1_bottom() {
+  return (ball_top() < paddle_1_bottom()) && (ball_bottom() > paddle_1_bottom())
+    && (ball_right() > paddle_1_left()) && (ball_left() < paddle_1_right());
 }
 
-/* Ball hit paddle 2 */
-
-function ballHitPaddle2Left() {
-  return (ballRightEdge() > paddle2LeftEdge())
-    && (ballTopEdge() < paddle2BottomEdge())
-    && (ballBottomEdge() > paddle2TopEdge());
+// Check if the ball hit the paddle 2 left edge.
+function ball_hit_paddle_2_left() {
+  return (ball_right() > paddle_2_left()) && (ball_top() < paddle_2_bottom()) && (ball_bottom() > paddle_2_top());
 }
 
-function ballHitPaddle2Top() {
-  return (ballBottomEdge() > paddle2TopEdge())
-    && (ballTopEdge() < paddle2TopEdge())
-    && (ballRightEdge() > paddle2LeftEdge())
-    && (ballLeftEdge() < paddle2RightEdge());
+// Check if the ball hit the paddle 2 top edge.
+function ball_hit_paddle_2_top() {
+  return (ball_bottom() > paddle_2_top()) && (ball_top() < paddle_2_top())
+    && (ball_right() > paddle_2_left()) && (ball_left() < paddle_2_right());
 }
 
-function ballHitPaddle2Bottom() {
-  return (ballTopEdge() < paddle2BottomEdge())
-    && (ballBottomEdge() > paddle2BottomEdge())
-    && (ballRightEdge() > paddle2LeftEdge())
-    && (ballLeftEdge() < paddle2RightEdge());
+// Check if the ball hit the paddle 2 bottom edge.
+function ball_hit_paddle_2_bottom() {
+  return (ball_top() < paddle_2_bottom()) && (ball_bottom() > paddle_2_bottom())
+    && (ball_right() > paddle_2_left()) && (ball_left() < paddle_2_right());
+}
+
+// Check if the ball hit the objects in the horizontal axis.
+function ball_hit_horizontal() {
+  return ball_hit_board_left() || ball_hit_board_right() || ball_hit_paddle_1_right() || ball_hit_paddle_2_left();
+}
+
+// Check if the ball hit the objects in the vertical axis.
+function ball_hit_vertical() {
+  return ball_hit_board_top() || ball_hit_board_bottom() || ball_hit_paddle_1_top()
+    || ball_hit_paddle_1_bottom() || ball_hit_paddle_2_top() || ball_hit_paddle_2_bottom();
 }

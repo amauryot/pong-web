@@ -1,160 +1,65 @@
-// App variables
-var app = document.querySelector('canvas');
-var app_x = 0;
-var app_y = 0;
-var app_width = 600;
-var app_height = 400;
-var brush = app.getContext('2d');
-var time = 1 / 30; // mili seconds
+// 
+var time = 1 / 30; // miliseconds
 
-// Board variables
-var board = {
-  x: app_x,
-  y: app_y,
-  width: app_width,
-  height: app_height,
-  color: 'black',
-  line_x: (app.width - 5) / 2,
-  line_y: 0,
-  line_width: 5,
-  line_height: app.height / 19, 
-};
+// Key codes
+var arrow_left = 37;
+var arrow_up = 38;
+var arrow_right = 39;
+var arrow_down = 40;
 
-// Ball variables
-var ball = {
-  x: board.width / 2,
-  y: board.height / 2,
-  radius: 10,
-  color: 'white',
-  xVelocity: 1,
-  yVelocity: 1,
-}
+// Run the app every 'time' miliseconds.
+setInterval(run_app, time);
 
-// Paddle variables
-var paddle = {
-  width: 15,
-  height: 100,
-  color: 'white',
-}
+// Move the paddle 2 whenever the arrow key is pressed.
+document.onkeydown = paddle_2_move;
 
-// Paddle 1 variables
-var paddle1 = {
-  x: ball.radius,
-  y: (board.height - paddle.height) / 2,
-}
+// Draw the board.
+function draw_board() {
+  brush.fillStyle = board_color;
+  brush.fillRect(board_x, board_y, board_width, board_height);
 
-// Paddle 2 variables
-var paddle2 = {
-  x: board.width - paddle.width - ball.radius,
-  y: paddle1.y,
-}
-
-// Key code
-var arrow = {
-  left: 37,
-  up: 38,
-  right: 39,
-  down: 40,
-}
-
-/* Main */
-
-setInterval(runApp, time);
-
-document.onkeydown = movePaddle2;
-
-/* Functions */
-
-function drawBoard() {
-  brush.fillStyle = board.color;
-  brush.fillRect(board.x, board.y, board.width, board.height);
-  
   brush.fillStyle = 'white';
+
   for (i = 0; i < 10; i++) {
-    brush.fillRect(board.line_x, (i * 2 * board.line_height), board.line_width, board.line_height);
+    brush.fillRect(board_line_x, (i * 2 * board_line_height), board_line_width, board_line_height);
   }
 }
 
-function drawBall() {
-  brush.fillStyle = ball.color;
+// Draw the ball.
+function draw_ball() {
+  brush.fillStyle = ball_color;
   brush.beginPath();
-  brush.arc(ball.x, ball.y, ball.radius, 0, (2 * Math.PI));
+  brush.arc(ball_x, ball_y, ball_radius, 0, (2 * Math.PI));
   brush.fill();
 }
 
-function drawPaddles() {
-  brush.fillStyle = paddle.color;
-  brush.fillRect(paddle1.x, paddle1.y, paddle.width, paddle.height);
-  brush.fillRect(paddle2.x, paddle2.y, paddle.width, paddle.height);
+// Draw the paddles.
+function draw_paddles() {
+  brush.fillStyle = paddle_color;
+  brush.fillRect(paddle_1_x, paddle_1_y, paddle_width, paddle_height);
+  brush.fillRect(paddle_2_x, paddle_2_y, paddle_width, paddle_height);
 }
 
-function drawObjects() {
-  drawBoard();
-  drawBall();
-  drawPaddles();
+// Draw all the objects.
+function draw_objects() {
+  draw_board();
+  draw_ball();
+  draw_paddles();
 }
 
-function moveBall() {
-  ball.x += ball.xVelocity;
-  ball.y += ball.yVelocity;
-}
-
-function movePaddle1() {
-  paddle1.y = ball.y - (paddle.height / 2);
-
-  if (paddle1TopEdge() < boardTopEdge()) {
-    paddle1.y = boardTopEdge();
-  } 
-  
-  if (paddle1BottomEdge() > boardBottomEdge()) {
-    paddle1.y = boardBottomEdge() - paddle.height;
+// Check if the ball hit some object.
+function ball_collisions() {
+  if (ball_hit_horizontal()) {
+    ball_velocity_x *= -1;
+  } else if (ball_hit_vertical()) {
+    ball_velocity_y *= -1;
   }
 }
 
-function movePaddle2(event) {
-  var speed = 2 * ball.radius;
-  
-  if (event.keyCode == arrow.up) {
-    paddle2.y -= speed;
-  }
-
-  if (event.keyCode == arrow.down) {
-    paddle2.y += speed;
-  }
-
-  if (paddle2TopEdge() < boardTopEdge()) {
-    paddle2.y = boardTopEdge();
-  } 
-  
-  if (paddle2BottomEdge() > boardBottomEdge()) {
-    paddle2.y = boardBottomEdge() - paddle.height;
-  }
-}
-
-function ballHitHorizontal() {
-  return ballHitBoardLeft() || ballHitBoardRight()
-    || ballHitPaddle1Right() || ballHitPaddle2Left();
-}
-
-function ballHitVertical() {
-  return ballHitBoardTop() || ballHitBoardBottom()
-    || ballHitPaddle1Top() || ballHitPaddle1Bottom()
-    || ballHitPaddle2Top() || ballHitPaddle2Bottom();
-}
-
-function checkBallCollisions() {
-  if (ballHitHorizontal()) {
-    ball.xVelocity *= -1;
-  }
-
-  if (ballHitVertical()) {
-    ball.yVelocity *= -1;
-  }
-}
-
-function runApp() {
-  drawObjects();
-  moveBall();
-  movePaddle1();
-  checkBallCollisions();
+// Start the app.
+function run_app() {
+  draw_objects();
+  ball_move();
+  paddle_1_move();
+  ball_collisions();
 }
